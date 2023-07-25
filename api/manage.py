@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, validator
 
 from datetime import datetime
 
-from shortlinks import create_shortlink
+from shortlinks import create_shortlink, delete_shortlink
 
 
 router = APIRouter()
@@ -25,6 +25,11 @@ class Link(BaseModel):
         return v
 
 
+class Code(BaseModel):
+    """Code model."""
+    code: str
+
+
 @router.post("/create")
 async def create(shortlink: Link):
     """Create a shortlink."""
@@ -34,3 +39,14 @@ async def create(shortlink: Link):
         return "Shortlink created successfully."
 
     return "Shortlink already exists."
+
+
+@router.post("/delete")
+async def delete(shortlink: Link):
+    """Delete a shortlink."""
+    res = delete_shortlink(shortlink.code)
+
+    if res:
+        return "Shortlink deleted successfully."
+
+    return "Shortlink doesn't exist."

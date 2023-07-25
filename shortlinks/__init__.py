@@ -25,3 +25,12 @@ def find_shortlink(code: str) -> str:
         return item["url"]
 
     return ""
+
+
+def delete_shortlink(code: str) -> bool:
+    """Delete a shortlink. Returns False if the shortlink doesn't exist."""
+    if not code_exists(code):
+        return False
+
+    SHORTLINKS.delete_one({"code": code})
+    return True
