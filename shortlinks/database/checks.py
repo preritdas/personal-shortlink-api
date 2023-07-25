@@ -1,7 +1,7 @@
 """Check for existing items in the database or expirations."""
 from datetime import datetime
 
-from database import SHORTLINKS
+from shortlinks.database import SHORTLINKS
 
 
 def code_exists(code: str) -> bool:

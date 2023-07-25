@@ -1,8 +1,8 @@
 """Shortlink creation."""
 from datetime import datetime
 
-from database import SHORTLINKS
-from database.checks import code_exists, code_expired
+from shortlinks.database import SHORTLINKS
+from shortlinks.database.checks import code_exists, code_expired
 
 
 def create_shortlink(url: str, code: str, expiration: datetime = None) -> bool:
