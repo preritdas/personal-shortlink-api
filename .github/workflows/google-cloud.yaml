@@ -2,28 +2,28 @@ name: cloud run deployment
 
 
 on:
-#  workflow_run:
-#    workflows:
-#      - tests
-#    types:
-#      - completed
-#    branches:
-#      - master
+ workflow_run:
+   workflows:
+     - tests
+   types:
+     - completed
+   branches:
+     - master
  workflow_dispatch: 
 
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
 
-      # - name: Inject keys
-      #   run: |
-      #     echo -en '${{ secrets.KEYS_YAML }}' >> keys.yaml
+      - name: Inject keys
+        run: |
+          echo -en '${{ secrets.KEYS_YAML }}' >> keys.yaml
 
       - name: Authenticate GCP
         uses: 'google-github-actions/auth@v1'
