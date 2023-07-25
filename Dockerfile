@@ -15,4 +15,4 @@ RUN pip install -U pip wheel && \
 COPY . .
 
 # Run the API
-CMD exec gunicorn -k uvicorn.workers.UvicornWorker --bind :$PORT --workers 3 --timeout 0 api:app
+CMD exec gunicorn -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --workers 3 --timeout 0 api:app
