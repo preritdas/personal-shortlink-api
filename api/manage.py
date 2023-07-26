@@ -15,7 +15,7 @@ class LinkJob(BaseModel):
     """Link model."""
     code: str
     url: str
-    expiration: str = Field("", description="Expiration date and time in YYYY-MM-DD format.")
+    expiration: str = Field("3000-01-01", description="Expiration date and time in YYYY-MM-DD format.")
     password: str = Field("", description="Password for management.")
 
     @validator("expiration")

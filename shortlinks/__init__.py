@@ -18,7 +18,7 @@ def find_shortlink(code: str) -> str:
     return ""
 
 
-def create_shortlink(url: str, code: str, expiration: datetime = None) -> bool:
+def create_shortlink(url: str, code: str, expiration: datetime = datetime(3000, 1, 1)) -> bool:
     """Create a shortlink. Returns False if the chosen code exists."""
     if find_shortlink(code):  # if a non-expired shortlink already exists
         return False
