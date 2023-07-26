@@ -12,6 +12,12 @@ class MongoDBModel(BaseModel):
     connect_str: str
 
 
+class GeneralModel(BaseModel):
+    """General passkeys."""
+    manage_pwd: str
+
+
 class Keys(BaseModel):
     """Overall keys."""
     MongoDB: MongoDBModel
+    General: GeneralModel
