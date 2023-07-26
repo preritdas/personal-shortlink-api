@@ -5,16 +5,18 @@ from pydantic import BaseModel, Field, validator
 from datetime import datetime
 
 from shortlinks import create_shortlink, delete_shortlink
+from keys import KEYS
 
 
 router = APIRouter()
 
 
-class Link(BaseModel):
+class LinkJob(BaseModel):
     """Link model."""
     code: str
     url: str
     expiration: str = Field("", description="Expiration date and time in YYYY-MM-DD format.")
+    password: str = Field("", description="Password for management.")
 
     @validator("expiration")
     def expiration_datetime(cls, v):
@@ -25,14 +27,19 @@ class Link(BaseModel):
         return v
 
 
-class Code(BaseModel):
+class CodeJob(BaseModel):
     """Code model."""
     code: str
+    password: str = Field("", description="Password for management.")
 
 
 @router.post("/create")
-async def create(shortlink: Link):
+async def create(shortlink: LinkJob) -> str:
     """Create a shortlink."""
+    # Validate the password
+    if shortlink.password != KEYS.General.manage_pwd:
+        return "Incorrect password."
+
     res = create_shortlink(shortlink.url, shortlink.code, shortlink.expiration)
 
     if res:
@@ -42,9 +49,13 @@ async def create(shortlink: Link):
 
 
 @router.post("/delete")
-async def delete(shortlink: Link):
+async def delete(code: CodeJob) -> str:
     """Delete a shortlink."""
-    res = delete_shortlink(shortlink.code)
+    # Validate the password
+    if code.password != KEYS.General.manage_pwd:
+        return "Incorrect password."
+
+    res = delete_shortlink(code.code)
 
     if res:
         return "Shortlink deleted successfully."
