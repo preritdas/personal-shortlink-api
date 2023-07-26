@@ -34,3 +34,17 @@ def delete_shortlink(code: str) -> bool:
 
     SHORTLINKS.delete_one({"code": code})
     return True
+
+
+def change_expiration(code: str, expiration: datetime) -> bool:
+    """
+    Change the expiration date of a shortlink. Updates the expiration of all
+    shortlinks that match the code.
+    
+    Returns False if the shortlink doesn't exist.
+    """
+    if not code_exists(code):
+        return False
+
+    SHORTLINKS.update_many({"code": code}, {"$set": {"expiration": expiration}})
+    return True
