@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, validator
 from datetime import datetime
 
 from shortlinks import create_shortlink, delete_shortlink, change_expiration
+from shortlinks.database import SHORTLINKS
 from keys import KEYS
 
 
@@ -91,3 +92,19 @@ async def change_expire(expiration_change: ExpirationChangeJob) -> str:
         return "Shortlink expiration changed successfully."
 
     return "Shortlink doesn't exist."
+
+
+@router.get("/clicks/{code}")
+async def get_clicks(code: str, password: str) -> dict:
+    """See the clicks for a shortlink."""
+    # Validate the password
+    if password != KEYS.General.manage_pwd:
+        return "Incorrect password."
+
+    if not (shortlink := SHORTLINKS.find_one({"code": code})):
+        return "Shortlink not found."
+
+    if not "clicks" in shortlink:
+        return {"clicks": []}
+
+    return {"clicks": shortlink["clicks"]}
