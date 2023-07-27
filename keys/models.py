@@ -7,17 +7,17 @@ is a BaseModel class with the keys (and private settings) for that service.
 from pydantic import BaseModel
 
 
-class MongoDBModel(BaseModel):
-    """MongoDB connection credentials."""
-    connect_str: str
-
-
 class GeneralModel(BaseModel):
     """General passkeys."""
     manage_pwd: str
 
 
+class MongoDBModel(BaseModel):
+    """MongoDB connection credentials."""
+    connect_str: str
+
+
 class Keys(BaseModel):
     """Overall keys."""
-    MongoDB: MongoDBModel
     General: GeneralModel
+    MongoDB: MongoDBModel
