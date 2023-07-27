@@ -5,3 +5,6 @@ pyyaml==6.0.1
 # Server
 gunicorn==21.2.0
 uvicorn==0.23.1
+
+# Tracking
+requests==2.31.0
