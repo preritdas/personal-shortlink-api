@@ -17,7 +17,13 @@ class MongoDBModel(BaseModel):
     connect_str: str
 
 
+class ipstackModel(BaseModel):
+    """ipstack API credentials."""
+    api_key: str
+
+
 class Keys(BaseModel):
     """Overall keys."""
     General: GeneralModel
     MongoDB: MongoDBModel
+    ipstack: ipstackModel
