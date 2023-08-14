@@ -11,16 +11,16 @@ from api.manage import router
 app = FastAPI()
 
 # Include manage router
-app.include_router(router, prefix="/manage")
+app.include_router(router, prefix="/manage", tags=["Manage"])
 
 
-@app.get("/")
+@app.get("/", tags=["Root"])
 async def root_redirect():
     """If the user visits the root path, redirect them to the main website."""
     return RedirectResponse("https://preritdas.com")
 
 
-@app.get("/{code}")
+@app.get("/{code}", tags=["Redirect"])
 async def main_handler(code: str, request: Request):
     shortlink = find_shortlink(code)
 
