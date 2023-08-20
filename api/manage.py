@@ -1,6 +1,6 @@
 """CRUD operations for the links."""
 from fastapi import APIRouter
-from pydantic import BaseModel, Field, validator
+from pydantic import field_validator, BaseModel, Field
 
 from datetime import datetime
 
@@ -19,7 +19,7 @@ class LinkJob(BaseModel):
     expiration: str = Field("3000-01-01", description="Expiration date and time in YYYY-MM-DD format.")
     password: str = Field("", description="Password for management.")
 
-    @validator("expiration")
+    @field_validator("expiration")
     def expiration_datetime(cls, v):
         """Validate expiration."""
         if v:
@@ -70,7 +70,7 @@ class ExpirationChangeJob(BaseModel):
     new_expiration: str = Field("3000-01-01", description="Expiration date and time in YYYY-MM-DD format.")
     password: str = Field("", description="Password for management.")
 
-    @validator("new_expiration")
+    @field_validator("new_expiration")
     def expiration_datetime(cls, v):
         """Validate expiration."""
         if v:
